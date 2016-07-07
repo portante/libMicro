@@ -67,7 +67,7 @@ touch $IFILE
 
 DISTRO=$(cat /etc/issue | head -n +1 | awk '{print $1}')
 
-if [ "$DISTRO" == "Debian" ]
+if [ "$DISTRO" == "Debian" -o "$DISTRO" == "Ubuntu" ]
 then
    ARCH=`arch`
 else
