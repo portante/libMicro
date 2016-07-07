@@ -65,7 +65,14 @@ mkdir -p $VDIR1 $VDIR2
 
 touch $IFILE
 
-ARCH=`arch`
+DISTRO=$(cat /etc/issue | head -n +1 | awk '{print $1}')
+
+if [ "$DISTRO" == "Debian" ]
+then
+   ARCH=`arch`
+else
+   ARCH=`arch -k`
+fi
 
 # produce benchmark header for easier comparisons
 
