@@ -65,7 +65,7 @@ mkdir -p $VDIR1 $VDIR2
 
 touch $IFILE
 
-DISTRO=$(cat /etc/issue | head -n +1 | awk '{print $1}')
+DISTRO=$(cat /etc/issue 2> /dev/null | head -n +1 | awk '{print $1}')
 
 if [ "$DISTRO" == "Debian" -o "$DISTRO" == "Ubuntu" ]
 then
