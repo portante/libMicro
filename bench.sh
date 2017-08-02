@@ -31,7 +31,7 @@
 #
 
 bench_version=0.4.1
-libmicro_version=`bin/tattle -V`
+libmicro_version=$(bin/tattle -V)
 
 case $libmicro_version in
 $bench_version)
@@ -65,42 +65,43 @@ mkdir -p $VDIR1 $VDIR2
 
 touch $IFILE
 
-ARCH=`arch -k`
+# No arguments needed on GNU arch
+ARCH=$(arch)
 
 # produce benchmark header for easier comparisons
 
-hostname=`uname -n`
+hostname=$(uname -n)
 
 if [ -f /usr/sbin/psrinfo ]; then
-	p_count=`psrinfo|wc -l`
-	p_mhz=`psrinfo -v | awk '/operates/{print $6 "MHz"; exit }'`
-	p_type=`psrinfo -vp 2>/dev/null | awk '{if (NR == 3) {print $0; exit}}'` 
+	p_count=$(psrinfo|wc -l)
+	p_mhz=$(psrinfo -v | awk '/operates/{print $6 "MHz"; exit }')
+	p_type=$(psrinfo -vp 2>/dev/null | awk '{if (NR == 3) {print $0; exit}}')
 fi
 
 if [ -f /proc/cpuinfo ]; then
-	p_count=`egrep processor /proc/cpuinfo | wc -l`
-	p_mhz=`awk -F: '/cpu MHz/{printf("%5.0f00Mhz\n",$2/100); exit}' /proc/cpuinfo`
-	p_type=`awk -F: '/model name/{print $2; exit}' /proc/cpuinfo`
+	p_count=$(egrep -c processor /proc/cpuinfo)
+	p_mhz=$(awk -F: '/cpu MHz/{printf("%5.0f00Mhz\n",$2/100); exit}' /proc/cpuinfo)
+	p_type=$(awk -F: '/model name/{print $2; exit}' /proc/cpuinfo)
 fi
 
 printf "!Libmicro_#:   %30s\n" $libmicro_version
 printf "!Options:      %30s\n" "$OPTS"
 printf "!Machine_name: %30s\n" $hostname
-printf "!OS_name:      %30s\n" `uname -s`
-printf "!OS_release:   %30s\n" `uname -r`
-printf "!OS_build:     %30.18s\n" "`uname -v`"
-printf "!Processor:    %30s\n" `uname -m`
+printf "!OS_name:      %30s\n" $(uname -s)
+printf "!OS_release:   %30s\n" $(uname -r)
+printf "!OS_build:     %30.18s\n" "$(uname -v)"
+printf "!Processor:    %30s\n" $(uname -m)
 printf "!#CPUs:        %30s\n" $p_count
 printf "!CPU_MHz:      %30s\n" $p_mhz
 printf "!CPU_NAME:     %30s\n" "$p_type"
-printf "!IP_address:   %30s\n" `getent hosts $hostname | awk '{print $1}'`
+printf "!IP_address:   %30s\n" $(getent hosts $hostname | awk '{print $1}')
 printf "!Run_by:       %30s\n" $LOGNAME
-printf "!Date:	       %30s\n" "`date '+%D %R'`"
-printf "!Compiler:     %30s\n" `bin/tattle -c`
-printf "!Compiler Ver.:%30s\n" "`bin/tattle -v`"
-printf "!sizeof(long): %30s\n" `bin/tattle -s`
-printf "!extra_CFLAGS: %30s\n" "`bin/tattle -f`"
-printf "!TimerRes:     %30s\n" "`bin/tattle -r`"
+printf "!Date:	       %30s\n" "$(date '+%D %R')"
+printf "!Compiler:     %30s\n" $(bin/tattle -c)
+printf "!Compiler Ver.:%30s\n" "$(bin/tattle -v)"
+printf "!sizeof(long): %30s\n" $(bin/tattle -s)
+printf "!extra_CFLAGS: %30s\n" "$(bin/tattle -f)"
+printf "!TimerRes:     %30s\n" "$(bin/tattle -r)"
  
 mkdir -p $TMPROOT/bin
 cp bin-$ARCH/exec_bin $TMPROOT/bin/$A
