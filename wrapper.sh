@@ -30,8 +30,8 @@
 #
 
 
-BASENAME=`basename $0`
-DIRNAME=`dirname $0`
-ARCH=`uname -m`
+BASENAME=$(basename $0)
+DIRNAME=$(dirname $0)
+ARCH=$(uname -m)
 
 exec $DIRNAME/../bin-$ARCH/$BASENAME "$@"

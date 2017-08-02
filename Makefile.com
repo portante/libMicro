@@ -104,16 +104,16 @@ libmicro.a:	libmicro.o libmicro_main.o $(BENCHMARK_FUNCS)
 		$(AR) -cr libmicro.a libmicro.o libmicro_main.o $(BENCHMARK_FUNCS)
 
 tattle:		../tattle.c	libmicro.a
-	echo "char * compiler_version = \""`$(COMPILER_VERSION_CMD)`"\";" > tattle.h
+	echo "char * compiler_version = \""$(shell $(COMPILER_VERSION_CMD))"\";" > tattle.h
 	echo "char * CC = \""$(CC)"\";" >> tattle.h
 	echo "char * extra_compiler_flags = \""$(extra_CFLAGS)"\";" >> tattle.h
-	$(CC) -o tattle $(CFLAGS) -I. ../tattle.c libmicro.a -lrt -lm
+	$(CC) -o tattle $(CFLAGS) $(LDFLAGS) -I. ../tattle.c libmicro.a -lrt -lm
 
 $(ELIDED_BENCHMARKS):	../elided.c
 	$(CC) -o $(@) ../elided.c
 
 %: libmicro.a %.o 
-	$(CC) -o $(@) $(@).o $($(@)_EXTRA_DEPS) $(CFLAGS) libmicro.a $($(@)_EXTRA_LIBS) $(EXTRA_LIBS) -lpthread -lm
+	$(CC) -o $(@) $(@).o $($(@)_EXTRA_DEPS) $(CFLAGS) libmicro.a $($(@)_EXTRA_LIBS) $(EXTRA_LIBS) -pthread -lpthread -lm
 
 exec:	exec_bin
 

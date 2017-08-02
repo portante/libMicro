@@ -31,13 +31,13 @@
 
 CC=		gcc
 
-#CFLAGS=		-O -DUSE_SEMOP
-CPPFLAGS=		-DUSE_SEMOP -D_REENTRANT
+#CFLAGS=	-O -DUSE_SEMOP
+CPPFLAGS=	-DUSE_SEMOP -D_REENTRANT
+LDFLAGS=	-pthread -lpthread
 MATHLIB=	-lm
 
 ELIDED_BENCHMARKS=	\
 	cachetocache	\
 	atomic
-
 
 include ../Makefile.com

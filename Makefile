@@ -73,7 +73,7 @@ default $(ALL) run cstyle lint tattle: $(BINS)
 	@cp multiview.sh multiview
 	@cp wrapper.sh wrapper
 	@chmod +x bench multiview wrapper
-	@mkdir -p bin-`uname -m`; cd bin-`uname -m`; MACH=`uname -m` $(MAKE) -f ../Makefile.`uname -s` UNAME_RELEASE=`uname -r | sed 's/\./_/g'` $@
+	@mkdir -p bin-$(shell uname -m); cd bin-$(shell uname -m); MACH=$(shell uname -m) $(MAKE) -f ../Makefile.$(shell uname -s) UNAME_RELEASE=$(shell uname -r | sed 's/\./_/g') $@
 
 clean:
 	rm -rf bin bin-* wrapper multiview bench
