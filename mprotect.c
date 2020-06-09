@@ -127,6 +127,9 @@ benchmark_initrun(void)
 	int	flags;
 	int	i;
 
+	// Round mapping length up to first higher multiple of page size
+	optl = (optl + pagesize - 1) / pagesize * pagesize;
+
 	if (!anon) {
 		fd = open(optf, O_RDWR);
         if (fd < 0) {
